@@ -1,0 +1,88 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Document</title>
+    <style type="text/css">
+        body {
+            font-size: 20px;
+        }
+        
+        #email {
+            width: 200px;
+            height: 40px;
+            font-size: 20px;
+        }
+    </style>
+    <script type="text/javascript" src="./jquery.js"></script>
+</head>  
+<body>
+    <canvas id="myCanvas" width="600px" height="200px" style="border: 1px solid #DDDDDD">
+    </canvas>
+    
+    <form>
+        <input type="" name="" id="email" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)">
+    </form>
+
+    <script type="text/javascript">
+        function paint(left_x, left_y, right_x, right_y) {
+            var c=document.getElementById("myCanvas");
+            var ctx=c.getContext("2d");
+            ctx.clearRect(0, 0, 600, 200);
+            ctx.beginPath();
+            ctx.arc(100,200,100,Math.PI,0);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(50,113,25,2.5,5.9);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(150,113,25,3.6,0.7);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(50,180,20,2*Math.PI,0);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(150,180,20,2*Math.PI,0);
+            ctx.stroke();
+            //左眼球
+            ctx.beginPath();
+            ctx.arc(left_x,left_y,5,2*Math.PI,0);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+            ctx.stroke();
+            //右眼球
+            ctx.beginPath();
+            ctx.arc(right_x,right_y,5,2*Math.PI,0);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        paint(50, 190, 150, 190);
+
+        function repaint() {
+            var angle = 130 - textWidth(document.getElementById("email").value) / 200 * 80;
+
+            paint(50 + 10 * Math.cos(angle * Math.PI / 180), 190 + Math.sin(angle * Math.PI / 180), 150 + 10 * Math.cos(angle * Math.PI / 180), 190 + Math.sin(angle * Math.PI / 180));
+        }
+        //输入改变时改变眼球位置
+        function OnInput (event) {
+            repaint();
+        }
+
+        // Internet Explorer
+        function OnPropChanged (event) {
+            repaint();
+        }
+
+        //获取文本长度
+        var textWidth = function(text){ 
+            var sensor = $('<p>'+ text +'</p>').css({display: 'none'}).css({'font-size': '20px'}); 
+            $('body').append(sensor); 
+            var width = sensor.width();
+            sensor.remove(); 
+            return width;
+        };
+    </script>
+</body>
+</html>  
